@@ -29,13 +29,13 @@ public class Main {
         String path = "\\\\192.168.2.61\\Plex\\Séries en anglais";
         List<TvShow> showList = new ArrayList<>();
         File f = new File(path);
-        for(String file : f.list()){
+        for (String file : f.list()) {
             File tempF = new File(path + "\\" + file);
-            if(tempF.isDirectory()){
+            if (tempF.isDirectory()) {
                 showList.add(new TvShow(tempF.getPath()));
             }
         }
-        for(TvShow show : showList){
+        for (TvShow show : showList) {
             System.out.printf("%S : ", show.getShowName());
             System.out.println(show);
         }
@@ -56,10 +56,10 @@ public class Main {
                 DataGrabber dg = new DataGrabber(APIkey);
                 TvShowData show = dg.getDataFromID(mediaID, DataType.TvShow);
                 System.out.println("Show name: " + show.getName() + "\nEpisode count: " + show.getNumberOfEpisodes() + "\nSeasons: " + show.getNumberOfSeasons());
-                for(SeasonData d : show.getSeasons()){
+                for (SeasonData d : show.getSeasons()) {
                     System.out.println(d.getName());
                 }
-            }catch(Exception e){
+            } catch (Exception e) {
                 System.out.println("Error: " + e.getMessage());
             }
 
@@ -77,9 +77,9 @@ public class Main {
             Scanner scan = new Scanner(System.in);
             // Scan entree utilisateur
             int temp = -1;
-            while(temp < 0){
+            while (temp < 0) {
                 System.out.println("Recherche de media : \n1) Film\n2) Série\n0) Quitter");
-                switch(scan.nextInt()) {
+                switch (scan.nextInt()) {
                     case 0 -> {
                         return;
                     }
@@ -97,7 +97,7 @@ public class Main {
 
                 }
             }
-            switch(mediaType){
+            switch (mediaType) {
                 case Movie -> System.out.print("Nom du film: ");
                 case TvShow -> System.out.print("Nom de la série: ");
             }
@@ -110,7 +110,7 @@ public class Main {
                     case Movie -> mDatas = grabber.getDataFromTitle(userInput, mediaType);
                     case TvShow -> tvDatas = grabber.getDataFromTitle(userInput, mediaType);
                 }
-            }catch(Exception e){
+            } catch (Exception e) {
                 System.out.println("Error: " + e.getMessage());
                 return;
             }
@@ -119,7 +119,6 @@ public class Main {
 //                case Movie -> mDatas = grabber.getDataFromTitle(userInput, mediaType);
 //                case TvShow -> tvDatas = grabber.getDataFromTitle(userInput, mediaType);
 //            }
-
 
 
             // Numerote et affiche les resultat ou affiche un erreur si aucun resultat
@@ -136,7 +135,7 @@ public class Main {
             // L'utilisateur choisi un numero de resultat pour afficher les infos
             System.out.print("Veuiller choisir un resultat: ");
             int choice = scan.nextInt();
-            if(mediaType == DataType.TvShow)
+            if (mediaType == DataType.TvShow)
                 System.out.printf("TV Show name: %s\nFirst air date: %s\nSeason count: %d\nTotal episodes count: %d\nGenre: %s", tvDatas.getResults()[choice].getName(), tvDatas.getResults()[choice].getFirstAirDate(), tvDatas.getResults()[choice].getNumberOfSeasons(),
                         tvDatas.getResults()[choice].getNumberOfEpisodes(),
                         Arrays.stream(tvDatas.getResults()[choice].getGenres()).toList());
