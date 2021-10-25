@@ -3,7 +3,7 @@ package net.ddns.goy.tmdb.data;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 // TODO: Completer cette section avec les information sur https://developers.themoviedb.org/3/movies/get-movie-details
-public class MovieData implements MediaData{
+public class MovieData extends MediaData<MovieData> {
     @JsonProperty("adult")
     private boolean adult;
     @JsonProperty("backdrop_path")
@@ -53,7 +53,7 @@ public class MovieData implements MediaData{
     @JsonProperty("vote_count")
     private int voteCount;
 
-    public MovieData(){
+    public MovieData() {
         _mediaType = DataType.Movie;
     }
 
@@ -151,10 +151,5 @@ public class MovieData implements MediaData{
 
     public int getVoteCount() {
         return voteCount;
-    }
-
-    @Override
-    public DataType getMediaType() {
-        return DataType.Movie;
     }
 }
