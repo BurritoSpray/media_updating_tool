@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Classe qui contient les donnee d'une serie
  * Correspond a GET /tv/{tv_id}
  */
-public class TvShowData extends MediaData {
+public class TvShowData extends MediaData<TvShowData> {
     @JsonProperty("backdrop_path")
     private String backdropPath;
     @JsonProperty("created_by")
@@ -16,7 +16,7 @@ public class TvShowData extends MediaData {
     @JsonProperty("first_air_date")
     private String firstAirDate;
     @JsonProperty("genres")
-    private GenreData[] genres = {};
+    private final GenreData[] genres = {};
     @JsonProperty("homepage")
     private String homepage;
     @JsonProperty("id")
