@@ -1,12 +1,16 @@
 package net.ddns.goy.tmdb;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import net.ddns.goy.tmdb.data.DataType;
 import net.ddns.goy.tmdb.data.MediaData;
 import net.ddns.goy.tmdb.data.MovieData;
 import net.ddns.goy.tmdb.data.TvShowData;
+import net.ddns.goy.tmdb.search.MovieSearchResult;
 import net.ddns.goy.tmdb.search.SearchResult;
+import net.ddns.goy.tmdb.search.TvSearchResult;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.BufferedReader;
@@ -17,38 +21,43 @@ import java.net.URL;
 public class DataGrabber {
     // Declaration du mapper JSON pour parser le contenu des requetes web
     private final ObjectMapper mapper = new ObjectMapper();
-    public DataGrabber(){
+    // Clee API pour faire les requete
+    private final String APIKey;
+
+    // Construction de la classe avec la clee
+    public DataGrabber(String APIKey){
         // Configuration du mapper
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        this.APIKey = APIKey;
     }
+
 
     /**
      * Fonction pour obtenir les infos sur un media a partir de son ID TMDB
      * @param mediaID
-     * @param mediaType
-     * @param APIkey
-     * @return MediaData
+     * @param dataType
+     * @return data
      * @throws IOException
      */
-    public MediaData getData(String mediaID, DataType mediaType, String APIkey) throws IOException {
-        URL _url;
+    public <T extends MediaData<T>> T getDataFromID(String mediaID, DataType dataType) throws IOException {
+        URL url;
         String json;
 
         // Dependament du DataType le liens sera different
-        switch(mediaType){
+        url = switch(dataType){
             // Si le Type est un film
-            case Movie -> _url = new URL(String.format("https://api.themoviedb.org/3/movie/%s?api_key=%s&language=en-US", mediaID, APIkey));
+            case Movie -> new URL(String.format("https://api.themoviedb.org/3/movie/%s?api_key=%s&language=en-US", mediaID, this.APIKey));
             // Si le type est une serie
-            case TvShow -> _url = new URL(String.format("https://api.themoviedb.org/3/tv/%s?api_key=%s&language=en-US", mediaID, APIkey));
+            case TvShow -> new URL(String.format("https://api.themoviedb.org/3/tv/%s?api_key=%s&language=en-US", mediaID, this.APIKey));
             // Pas encore implementer
-            case Episode -> _url = new URL("");
+            case Episode -> new URL("");
             // Lien vide
-            default -> _url = new URL("");
-        }
+            default -> new URL("");
+        };
 
         try{
             // Tentative d'obtention des donnee
-            json = JsonGrabber(_url);
+            json = JsonGrabber(url);
         }catch(Exception e){
             // Si une erreur a lieu lerreur est imprimer dans la console et json est vide
             System.out.println("Error: " + e.getMessage());
@@ -59,12 +68,12 @@ public class DataGrabber {
         // TODO: Faire des test avec object mapper pour trouver la maniere la plus optimale
         //Test --------------------------------------------------
         // Option 1 : Fonctionne bien pour l'instant
-        MediaData data;
-        switch(mediaType){
-            case TvShow -> data = mapper.readValue(json, TvShowData.class);
-            case Movie -> data = mapper.readValue(json, MovieData.class);
-            default -> data = new MediaData();
-        }
+        T data;
+        data = switch(dataType){
+            case TvShow -> (T)mapper.readValue(json, TvShowData.class);
+            case Movie -> (T) mapper.readValue(json, MovieData.class);
+            default -> null;
+        };
         return data;
     }
 
@@ -73,17 +82,16 @@ public class DataGrabber {
      *
      * @param title Titre de media a rechercher
      * @param type Type de media a rechercher
-     * @param APIkey Clee API V3 de TMDB
      * @return un objet SearchResult
      */
-    public SearchResult searchData(String title, DataType type, String APIkey) throws IOException {
+    public <T extends MediaData<T>> SearchResult<T> getDataFromTitle(String title, DataType type) throws IOException {
         // Lien de base pret a etre formater
         String baseUrl = "https://api.themoviedb.org/3/search/%s?api_key=%s&query=%s&page=%s";
         // Lien partiellement formater
-        String formatedURL = String.format(baseUrl, "%s", APIkey, title, "%s");
+        String formatedURL = String.format(baseUrl, "%s", this.APIKey, title, "%s");
         // Lien formater au complet
         String finalUrl = "";
-        SearchResult datas = null;
+
         switch(type){
             case TvShow -> {
                 finalUrl = String.format(formatedURL, "tv", "%d");
@@ -98,7 +106,7 @@ public class DataGrabber {
                 //baseUrl = String.format(baseUrl, "episode");
             }
             case Movie -> {
-                finalUrl = String.format(formatedURL, "movie");
+                finalUrl = String.format(formatedURL, "movie", "%d");
                 //baseUrl = String.format(baseUrl, "movie");
             }
             default -> finalUrl = "";
@@ -106,16 +114,28 @@ public class DataGrabber {
         // Obtient le contenu de la page en String
         String json = JsonGrabber(new URL(String.format(finalUrl, 1)));
         // Cree l'objet en fonction du type donnee
-//        switch(type){
-//            case TvShow -> datas = (TvSearchResult)mapper.readValue(json, TvSearchResult.class);
-//            //case Season -> datas = (SeasonData[])mapper.readValue(json, SeasonData[].class);
-//            //case Episode -> datas = (EpisodeData[])mapper.readValue(json, EpisodeData[].class);
-//            case Movie -> datas = mapper.readValue(json, MovieSearchResult.class);
-//        }
+        SearchResult<T> datas;
+        datas = switch(type){
+            case TvShow -> (SearchResult<T>)mapper.readValue(json, TvSearchResult.class);
+            //case Season -> datas = (SeasonData[])mapper.readValue(json, SeasonData[].class);
+            //case Episode -> datas = (EpisodeData[])mapper.readValue(json, EpisodeData[].class);
+            case Movie -> (SearchResult<T>)mapper.readValue(json, MovieSearchResult.class);
+            case Season -> null;
+            case Episode -> null;
+            case Crew -> null;
+            case Company -> null;
+            case Country -> null;
+            case Genre -> null;
+            case Language -> null;
+            case Creator -> null;
+            case Network -> null;
+        };
+        // Verifie les pages pour obtenir tout les resultats
 //        if(datas.getTotalPages() > 1){
 //            for(int i = 2; i < datas.getTotalPages(); i++){
 //                json = JsonGrabber(new URL(String.format(finalUrl, i)));
-//                datas.addResults(mapper.readValue(json, c));
+//                // TODO: 2021-10-24 Check moi sa
+//                //datas.addResults(mapper.readValue(json, ));
 //            }
 //        }
         // Retourne le resultat de la requete
