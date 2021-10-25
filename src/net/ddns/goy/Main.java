@@ -1,12 +1,21 @@
 package net.ddns.goy;
 
 import net.ddns.goy.media.TvShow;
-import net.ddns.goy.tmdb.*;
-import net.ddns.goy.tmdb.data.*;
+import net.ddns.goy.tmdb.DataGrabber;
+import net.ddns.goy.tmdb.data.DataType;
+import net.ddns.goy.tmdb.data.MovieData;
+import net.ddns.goy.tmdb.data.SeasonData;
+import net.ddns.goy.tmdb.data.TvShowData;
+import net.ddns.goy.tmdb.search.MovieSearchResult;
 import net.ddns.goy.tmdb.search.SearchResult;
+import net.ddns.goy.tmdb.search.TvSearchResult;
 
 import java.io.File;
-import java.util.*;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
 
 public class Main {
 
@@ -44,8 +53,8 @@ public class Main {
             try {
                 String mediaID = "81356";
                 String APIkey = "c9cc33dcd0e82e7a734f00feefff424b";
-                DataGrabber dg = new DataGrabber();
-                TvShowData show = (TvShowData) dg.getData(mediaID, DataType.TvShow, APIkey);
+                DataGrabber dg = new DataGrabber(APIkey);
+                TvShowData show = dg.getDataFromID(mediaID, DataType.TvShow);
                 System.out.println("Show name: " + show.getName() + "\nEpisode count: " + show.getNumberOfEpisodes() + "\nSeasons: " + show.getNumberOfSeasons());
                 for(SeasonData d : show.getSeasons()){
                     System.out.println(d.getName());
@@ -57,14 +66,14 @@ public class Main {
         }
     }
 
-    public static class SearchTest{
-        public static void main(String[] args){
+    public static class SearchTest {
+        public static void main(String[] args) throws IOException {
             // Declaration de variable
             final String APIkey = "c9cc33dcd0e82e7a734f00feefff424b";
             String userInput = "";
             DataType mediaType = DataType.Episode;
-            SearchResult mDatas = new SearchResult();
-            SearchResult tvDatas = new SearchResult();
+            SearchResult<MovieData> mDatas = new MovieSearchResult();
+            SearchResult<TvShowData> tvDatas = new TvSearchResult();
             Scanner scan = new Scanner(System.in);
             // Scan entree utilisateur
             int temp = -1;
@@ -95,25 +104,31 @@ public class Main {
             scan.nextLine();
             userInput = scan.nextLine();
             // utilise l'entree pour faire une recherche
-            try{
-                DataGrabber grabber = new DataGrabber();
-                switch(mediaType){
-                    case Movie -> mDatas = grabber.searchData(userInput, mediaType, APIkey);
-                    case TvShow -> tvDatas = grabber.searchData(userInput, mediaType, APIkey);
+            try {
+                DataGrabber grabber = new DataGrabber(APIkey);
+                switch (mediaType) {
+                    case Movie -> mDatas = grabber.getDataFromTitle(userInput, mediaType);
+                    case TvShow -> tvDatas = grabber.getDataFromTitle(userInput, mediaType);
                 }
             }catch(Exception e){
                 System.out.println("Error: " + e.getMessage());
                 return;
             }
+//            DataGrabber grabber = new DataGrabber(APIkey);
+//            switch(mediaType) {
+//                case Movie -> mDatas = grabber.getDataFromTitle(userInput, mediaType);
+//                case TvShow -> tvDatas = grabber.getDataFromTitle(userInput, mediaType);
+//            }
+
 
 
             // Numerote et affiche les resultat ou affiche un erreur si aucun resultat
-            if(mDatas.getResults().length > 0){
-                for(int i = 0; i < mDatas.getResults().length; i++){
-                    System.out.printf("%d) %s\n", i, mDatas.getResults()[i].getTitle());
+            if (mediaType == DataType.Movie) {
+                for (int i = 0; i < mDatas.getResults().length; i++) {
+                    System.out.printf("%d) %s \n", i, mDatas.getResults()[i].getTitle());
                 }
-            }else if(tvDatas.getResults().length > 0){
-                for(int i = 0; i < tvDatas.getResults().length; i++){
+            } else if (mediaType == DataType.TvShow) {
+                for (int i = 0; i < tvDatas.getResults().length; i++) {
                     System.out.printf("%d) %s (%s)\n", i, tvDatas.getResults()[i].getName(), !"".equals(tvDatas.getResults()[i].getFirstAirDate()) ? tvDatas.getResults()[i].getFirstAirDate() : "Date non disponible");
                 }
             }
