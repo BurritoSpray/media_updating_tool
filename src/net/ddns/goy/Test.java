@@ -1,12 +1,11 @@
 package net.ddns.goy;
 
-import net.ddns.goy.tmdb.DataGrabberV2;
+import net.ddns.goy.tmdb.DataGrabber;
 import net.ddns.goy.tmdb.data.DataType;
 import net.ddns.goy.tmdb.data.TvShowData;
-import net.ddns.goy.tmdb.search.SearchResult;
+import net.ddns.goy.tmdb.search.TvSearchResult;
 
 import java.io.IOException;
-import java.util.Iterator;
 
 import static net.ddns.goy.tmdb.data.DataType.TvShow;
 
@@ -18,18 +17,18 @@ public class Test {
         String RandTvID = "63174";
         // Free Guy
         String RandMovID = "550988";
-        DataGrabberV2 grabber = new DataGrabberV2();
+        DataGrabber grabber = new DataGrabber(APIkey);
 
         // TEST -----------
         // TV ID-------------------------
-        TvShowData tvData = (TvShowData) grabber.getData(RandTvID, DataType.TvShow, APIkey, TvShowData.class);
+        TvShowData tvData = grabber.getDataFromID(RandTvID, DataType.TvShow);
         System.out.println(tvData.getName());
         System.out.println(tvData.getNumberOfEpisodes());
         System.out.println(tvData.getNumberOfSeasons());
         System.out.println(tvData.getCreators()[0].getName());
         //-----------------------------
         // TV Search --------------------------------
-        SearchResult searchTvData = grabber.searchData("shark", TvShow, APIkey);
+        TvSearchResult searchTvData = (TvSearchResult) grabber.getDataFromTitle("shark", TvShow);
         if(searchTvData.getResults() != null){
             System.out.println(searchTvData.getResults().length);
             for(int i = 0; i<searchTvData.getResults().length;i++){
