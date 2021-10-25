@@ -2,17 +2,20 @@ package net.ddns.goy.tmdb.search;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import net.ddns.goy.tmdb.data.MediaData;
-import net.ddns.goy.tmdb.data.TvShowData;
 import org.apache.commons.lang3.ArrayUtils;
 
-public class SearchResult{
+public class SearchResult<T extends MediaData<T>>{
     @JsonProperty("page")
     private int page;
     @JsonProperty("total_results")
     private int totalResults;
     @JsonProperty("total_pages")
     private int totalPages;
-    private MediaData[] results;
+    @JsonProperty("results")
+    T[] results;
+
+    public SearchResult(){
+    }
 
     public int getPage() {
         return page;
@@ -26,7 +29,12 @@ public class SearchResult{
         return totalResults;
     }
 
-    public MediaData[] getResults() {return results;}
+    public T[] getResults(){
+     return results;
+    }
 
-    public void addResults(MediaData[] resultsToAdd){results = ArrayUtils.addAll(this.results, resultsToAdd);}
+    void addResults(T[] resultsToAdd){
+        ArrayUtils.addAll(resultsToAdd, results);
+    }
+
 }
