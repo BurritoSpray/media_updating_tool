@@ -1,6 +1,9 @@
 package net.ddns.goy.tmdb.data;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.Arrays;
 
 public class EpisodeData extends MediaData {
     @JsonProperty("air_date")
@@ -70,8 +73,20 @@ public class EpisodeData extends MediaData {
         return voteCount;
     }
 
-    public EpisodeData(){
-        _mediaType = DataType.Episode;
+    @Override
+    public String toString() {
+        return "EpisodeData{" +
+                "airDate='" + airDate + '\'' +
+                ", crew=" + Arrays.toString(crew) +
+                ", episodeNumber=" + episodeNumber +
+                ", name='" + name + '\'' +
+                ", overview='" + overview + '\'' +
+                ", id=" + id +
+                ", productionCode='" + productionCode + '\'' +
+                ", seasonNumber=" + seasonNumber +
+                ", stillPath='" + stillPath + '\'' +
+                ", voteAverage=" + voteAverage +
+                ", voteCount=" + voteCount +
+                '}';
     }
-
 }

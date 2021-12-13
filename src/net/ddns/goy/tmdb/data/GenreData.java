@@ -8,9 +8,6 @@ public class GenreData extends MediaData{
     @JsonProperty("name")
     private String name;
 
-    public GenreData(){
-        _mediaType = DataType.Genre;
-    }
 
     public int getId() {
         return id;
@@ -18,5 +15,13 @@ public class GenreData extends MediaData{
 
     public String getName() {
         return name;
+    }
+
+    @Override
+    public String toString() {
+        return "GenreData{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

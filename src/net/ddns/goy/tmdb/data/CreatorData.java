@@ -14,9 +14,6 @@ public class CreatorData extends MediaData{
     @JsonProperty("profile_path")
     private String profilePath;
 
-    public CreatorData(){
-        _mediaType = DataType.Creator;
-    }
 
     public int getId() {
         return id;
@@ -36,5 +33,16 @@ public class CreatorData extends MediaData{
 
     public String getProfilePath() {
         return profilePath;
+    }
+
+    @Override
+    public String toString() {
+        return "CreatorData{" +
+                "id=" + id +
+                ", creditID='" + creditID + '\'' +
+                ", name='" + name + '\'' +
+                ", gender=" + gender +
+                ", profilePath='" + profilePath + '\'' +
+                '}';
     }
 }

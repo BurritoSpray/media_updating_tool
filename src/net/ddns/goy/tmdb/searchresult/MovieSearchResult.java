@@ -1,10 +1,7 @@
-package net.ddns.goy.tmdb.search;
+package net.ddns.goy.tmdb.searchresult;
 
-import net.ddns.goy.tmdb.data.MediaData;
-import net.ddns.goy.tmdb.data.MovieData;
-import org.apache.commons.lang3.ArrayUtils;
 
-public final class MovieSearchResult extends SearchResult<MovieData>{
+public final class MovieSearchResult extends SearchResult{
 
     public MovieSearchResult(){
 

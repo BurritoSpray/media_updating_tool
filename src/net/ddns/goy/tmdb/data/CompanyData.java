@@ -20,9 +20,6 @@ public class CompanyData extends MediaData{
     @JsonProperty("parent_company")
     private CompanyData parentCompany;
 
-    public CompanyData(){
-        _mediaType = DataType.Company;
-    }
 
     public String getDescription() {
         return description;
@@ -54,5 +51,19 @@ public class CompanyData extends MediaData{
 
     public CompanyData getParentCompany() {
         return parentCompany;
+    }
+
+    @Override
+    public String toString() {
+        return "CompanyData{" +
+                "description='" + description + '\'' +
+                ", headquarters='" + headquarters + '\'' +
+                ", homepage='" + homepage + '\'' +
+                ", id=" + id +
+                ", logoPath='" + logoPath + '\'' +
+                ", name='" + name + '\'' +
+                ", originCountry='" + originCountry + '\'' +
+                ", parentCompany=" + parentCompany +
+                '}';
     }
 }

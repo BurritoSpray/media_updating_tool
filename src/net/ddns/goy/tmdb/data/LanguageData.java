@@ -10,9 +10,6 @@ public class LanguageData extends MediaData{
     @JsonProperty("name")
     private String name;
 
-    public LanguageData() {
-        _mediaType = DataType.Language;
-    }
 
     public String getEnglishName() {
         return englishName;
@@ -24,5 +21,14 @@ public class LanguageData extends MediaData{
 
     public String getName() {
         return name;
+    }
+
+    @Override
+    public String toString() {
+        return "LanguageData{" +
+                "englishName='" + englishName + '\'' +
+                ", iso639_1='" + iso639_1 + '\'' +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

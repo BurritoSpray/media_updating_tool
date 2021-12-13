@@ -1,77 +1,75 @@
 package net.ddns.goy.tmdb.data;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.Arrays;
 
 /**
  * Classe qui contient les donnee d'une serie
  * Correspond a GET /tv/{tv_id}
  */
-public class TvShowData extends MediaData<TvShowData> {
+public class TvShowData extends MediaData {
     @JsonProperty("backdrop_path")
-    private String backdropPath;
+    private String backdropPath = "";
     @JsonProperty("created_by")
-    private CreatorData[] creators;
+    private CreatorData[] creators = {};
     @JsonProperty("episode_run_time")
-    private int[] episodeRunTime;
+    private int[] episodeRunTime = {};
     @JsonProperty("first_air_date")
-    private String firstAirDate;
+    private String firstAirDate = "";
     @JsonProperty("genres")
     private final GenreData[] genres = {};
     @JsonProperty("homepage")
-    private String homepage;
+    private String homepage = "";
     @JsonProperty("id")
-    private int id;
+    private int id = 0;
     @JsonProperty("in_production")
     private boolean inProduction;
     @JsonProperty("languages")
-    private String[] languages;
+    private String[] languages = {};
     @JsonProperty("last_air_date")
-    private String lastAirDate;
+    private String lastAirDate = "";
     @JsonProperty("last_episode_to_air")
     private EpisodeData lastEpisodeToAir;
     @JsonProperty("name")
-    private String name;
+    private String name = "";
     @JsonProperty("networks")
-    private NetworkData[] networks;
+    private NetworkData[] networks = {};
     @JsonProperty("number_of_episodes")
-    private int numberOfEpisodes;
+    private int numberOfEpisodes = 0;
     @JsonProperty("number_of_seasons")
-    private int numberOfSeasons;
+    private int numberOfSeasons = 0;
     @JsonProperty("origin_country")
-    private String[] originCountry;
+    private String[] originCountry = {};
     @JsonProperty("original_language")
-    private String originalLanguage;
+    private String originalLanguage = "";
     @JsonProperty("original_name")
-    private String originalName;
+    private String originalName = "";
     @JsonProperty("overview")
-    private String overview;
+    private String overview = "";
     @JsonProperty("popularity")
-    private int popularity;
+    private int popularity = 0;
     @JsonProperty("poster_path")
-    private String posterPath;
+    private String posterPath = "";
     @JsonProperty("production_companies")
-    private CompanyData[] productionCompanies;
+    private CompanyData[] productionCompanies = {};
     @JsonProperty("production_countries")
-    private CountryData[] productionCountries;
+    private CountryData[] productionCountries = {};
     @JsonProperty("seasons")
-    private SeasonData[] seasons;
+    private TvShowSeasonData[] seasons = {};
     @JsonProperty("spoken_languages")
-    private LanguageData[] spokenLanguages;
+    private LanguageData[] spokenLanguages = {};
     @JsonProperty("status")
-    private String status;
+    private String status = "";
     @JsonProperty("tagline")
-    private String tagline;
+    private String tagline = "";
     @JsonProperty("type")
-    private String type;
+    private String type = "";
     @JsonProperty("vote_average")
-    private double voteAverage;
+    private double voteAverage = 0;
     @JsonProperty("vote_count")
-    private int voteCount;
-
-    // Constructeur par defaut de la classe
-    public TvShowData(){
-        _mediaType = DataType.TvShow;
-    }
+    private int voteCount = 0;
 
     public String getBackdropPath() {
         return backdropPath;
@@ -165,7 +163,7 @@ public class TvShowData extends MediaData<TvShowData> {
         return productionCountries;
     }
 
-    public SeasonData[] getSeasons() {
+    public TvShowSeasonData[] getSeasons() {
         return seasons;
     }
 
@@ -191,5 +189,41 @@ public class TvShowData extends MediaData<TvShowData> {
 
     public int getVoteCount() {
         return voteCount;
+    }
+
+    @Override
+    public String toString() {
+        return "TvShowData{" +
+                "backdropPath='" + backdropPath + '\'' +
+                ", creators=" + Arrays.toString(creators) +
+                ", episodeRunTime=" + Arrays.toString(episodeRunTime) +
+                ", firstAirDate='" + firstAirDate + '\'' +
+                ", genres=" + Arrays.toString(genres) +
+                ", homepage='" + homepage + '\'' +
+                ", id=" + id +
+                ", inProduction=" + inProduction +
+                ", languages=" + Arrays.toString(languages) +
+                ", lastAirDate='" + lastAirDate + '\'' +
+                ", lastEpisodeToAir=" + lastEpisodeToAir +
+                ", name='" + name + '\'' +
+                ", networks=" + Arrays.toString(networks) +
+                ", numberOfEpisodes=" + numberOfEpisodes +
+                ", numberOfSeasons=" + numberOfSeasons +
+                ", originCountry=" + Arrays.toString(originCountry) +
+                ", originalLanguage='" + originalLanguage + '\'' +
+                ", originalName='" + originalName + '\'' +
+                ", overview='" + overview + '\'' +
+                ", popularity=" + popularity +
+                ", posterPath='" + posterPath + '\'' +
+                ", productionCompanies=" + Arrays.toString(productionCompanies) +
+                ", productionCountries=" + Arrays.toString(productionCountries) +
+                ", seasons=" + Arrays.toString(seasons) +
+                ", spokenLanguages=" + Arrays.toString(spokenLanguages) +
+                ", status='" + status + '\'' +
+                ", tagline='" + tagline + '\'' +
+                ", type='" + type + '\'' +
+                ", voteAverage=" + voteAverage +
+                ", voteCount=" + voteCount +
+                '}';
     }
 }

@@ -8,9 +8,6 @@ public class CountryData extends MediaData{
     @JsonProperty("name")
     private String name;
 
-    public CountryData(){
-        _mediaType = DataType.Country;
-    }
 
     public String getIso3166_1() {
         return iso3166_1;
@@ -18,5 +15,13 @@ public class CountryData extends MediaData{
 
     public String getName() {
         return name;
+    }
+
+    @Override
+    public String toString() {
+        return "CountryData{" +
+                "iso3166_1='" + iso3166_1 + '\'' +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

@@ -16,9 +16,6 @@ public class NetworkData extends MediaData{
     @JsonProperty("origin_country")
     private String originCountry;
 
-    public NetworkData(){
-        _mediaType = DataType.Network;
-    }
 
     public String getHeadquarters() {
         return headquarters;
@@ -42,5 +39,17 @@ public class NetworkData extends MediaData{
 
     public String getOriginCountry() {
         return originCountry;
+    }
+
+    @Override
+    public String toString() {
+        return "NetworkData{" +
+                "headquarters='" + headquarters + '\'' +
+                ", homepage='" + homepage + '\'' +
+                ", id=" + id +
+                ", logoPath='" + logoPath + '\'' +
+                ", name='" + name + '\'' +
+                ", originCountry='" + originCountry + '\'' +
+                '}';
     }
 }

@@ -2,8 +2,10 @@ package net.ddns.goy.tmdb.data;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.Arrays;
+
 // TODO: Completer cette section avec les information sur https://developers.themoviedb.org/3/movies/get-movie-details
-public class MovieData extends MediaData<MovieData> {
+public class MovieData extends MediaData {
     @JsonProperty("adult")
     private boolean adult;
     @JsonProperty("backdrop_path")
@@ -52,10 +54,6 @@ public class MovieData extends MediaData<MovieData> {
     private double voteAverage;
     @JsonProperty("vote_count")
     private int voteCount;
-
-    public MovieData() {
-        _mediaType = DataType.Movie;
-    }
 
     public boolean isAdult() {
         return adult;
@@ -151,5 +149,35 @@ public class MovieData extends MediaData<MovieData> {
 
     public int getVoteCount() {
         return voteCount;
+    }
+
+    @Override
+    public String toString() {
+        return "MovieData{" +
+                "adult=" + adult +
+                ", backdropPath='" + backdropPath + '\'' +
+                ", budget=" + budget +
+                ", genres=" + Arrays.toString(genres) +
+                ", homepage='" + homepage + '\'' +
+                ", id=" + id +
+                ", imdbID='" + imdbID + '\'' +
+                ", originalLanguage='" + originalLanguage + '\'' +
+                ", originalTitle='" + originalTitle + '\'' +
+                ", overview='" + overview + '\'' +
+                ", popularity=" + popularity +
+                ", posterPath='" + posterPath + '\'' +
+                ", productionCompanies=" + Arrays.toString(productionCompanies) +
+                ", productionCountries=" + Arrays.toString(productionCountries) +
+                ", releaseDate='" + releaseDate + '\'' +
+                ", revenue=" + revenue +
+                ", runtime=" + runtime +
+                ", spokenLanguages=" + Arrays.toString(spokenLanguages) +
+                ", status='" + status + '\'' +
+                ", tagline='" + tagline + '\'' +
+                ", title='" + title + '\'' +
+                ", video=" + video +
+                ", voteAverage=" + voteAverage +
+                ", voteCount=" + voteCount +
+                '}';
     }
 }

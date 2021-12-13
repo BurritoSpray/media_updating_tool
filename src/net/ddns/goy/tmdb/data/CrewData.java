@@ -16,10 +16,6 @@ public class CrewData extends MediaData{
     @JsonProperty("profile_path")
     private String profilePath;
 
-    public CrewData(){
-        _mediaType = DataType.Crew;
-    }
-
     public int getId() {
         return id;
     }
@@ -42,5 +38,17 @@ public class CrewData extends MediaData{
 
     public String getProfilePath() {
         return profilePath;
+    }
+
+    @Override
+    public String toString() {
+        return "CrewData{" +
+                "id=" + id +
+                ", creditID='" + creditID + '\'' +
+                ", name='" + name + '\'' +
+                ", departement='" + departement + '\'' +
+                ", job='" + job + '\'' +
+                ", profilePath='" + profilePath + '\'' +
+                '}';
     }
 }

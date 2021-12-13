@@ -1,4 +1,4 @@
-package net.ddns.goy.media;
+package net.ddns.goy.media.serie;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 public class TvShow {
-    private final List<Season> _seasonList = new ArrayList<Season>();
+    private final List<Season> _seasonList = new ArrayList<>();
     private final String _showName;
     private final String _folderPath;
 
