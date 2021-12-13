@@ -1,4 +1,4 @@
-package net.ddns.goy.media;
+package net.ddns.goy.media.serie;
 
 import java.io.File;
 import java.util.regex.Matcher;

@@ -1,4 +1,4 @@
-package net.ddns.goy.media;
+package net.ddns.goy.media.serie;
 
 // TODO: Ajouter une fonction sort() pour trier les episode dans la liste en ordre de Episode.episodeNo
 

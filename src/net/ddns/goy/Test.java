@@ -1,9 +1,11 @@
 package net.ddns.goy;
 
 import net.ddns.goy.tmdb.DataGrabber;
-import net.ddns.goy.tmdb.data.*;
+import net.ddns.goy.tmdb.search.result.CompanySearchResult;
+import net.ddns.goy.tmdb.search.result.TvSearchResult;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 public class Test {
     public static void main(String[] args) throws IOException {
@@ -15,11 +17,28 @@ public class Test {
         String RandMovID = "550988";
         DataGrabber grabber = new DataGrabber(APIkey);
 
-        // Test Film
-        MovieData md = grabber.getMovieData(RandMovID);
-        System.out.println("Movie name : " + md.getOriginalTitle());
 
-//        String TvShowTestID = "71446"; // La casa de papel
+
+        // Test de recherche d'une compagnie a partir du titre
+//        CompanySearchResult esr = grabber.searchCompanyByTitle("Warner");
+//        System.out.println(Arrays.toString(esr.getResults()));
+
+        // Test recherche serie
+        TvSearchResult tsr = grabber.searchTvShowByTitle("Friends");
+        System.out.println(Arrays.toString(tsr.getResults()));
+
+
+        // Test recherche de film OK
+//        MovieSearchResult msr = grabber.searchMovieByTitle("IT");
+//        System.out.println(msr.getTotalResults());
+//        System.out.println(msr.getTotalPages());
+        //System.out.println(Arrays.toString(msr.getResults()));
+
+        // Test Film OK
+//        MovieData md = grabber.getMovieData(RandMovID);
+//        System.out.println("Movie name : " + md.getOriginalTitle());
+
+//        String TvShowTestID = "71446"; // La casa de papel    OK
 //        TvShowData tvShowData = grabber.getTvShowData(TvShowTestID);
 //        System.out.println("TV Show name : " + tvShowData.getName());
 //        System.out.println("Episode count : " + tvShowData.getNumberOfEpisodes());

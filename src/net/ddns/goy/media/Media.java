@@ -1,6 +1,6 @@
 package net.ddns.goy.media;
 
-public abstract class Media {
+public abstract class Media implements IBaseMedia {
     public Media(String path){
 
     }
@@ -10,7 +10,6 @@ public abstract class Media {
     public String getPath() {
         return _filePath;
     }
-
     public String getShowName() {
         return _showName;
     }

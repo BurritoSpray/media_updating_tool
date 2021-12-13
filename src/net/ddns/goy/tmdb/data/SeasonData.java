@@ -10,21 +10,21 @@ import java.util.Arrays;
  */
 public class SeasonData extends MediaData {
     @JsonProperty("_id")
-    private String _id = "";
+    private final String _id = "";
     @JsonProperty("air_date")
-    private String airDate = "";
+    private final String airDate = "";
     @JsonProperty("episodes")
-    private EpisodeData[] episodes = {};
+    private final EpisodeData[] episodes = {};
     @JsonProperty("name")
-    private String name = "";
+    private final String name = "";
     @JsonProperty("overview")
-    private String overview = "";
+    private final String overview = "";
     @JsonProperty("id")
-    private int id = 0;
+    private final int id = 0;
     @JsonProperty("poster_path")
-    private String posterPath = "";
+    private final String posterPath = "";
     @JsonProperty("season_number")
-    private int seasonNumber = 0;
+    private final int seasonNumber = 0;
 
     public String get_id() {
         return _id;
